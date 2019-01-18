@@ -10,9 +10,11 @@ describe('Table', () => {
       components: { Table, TableRow, TableCell },
       template: `
       <Table :items="items">
-        <TableRow slot="row" slot-scope="{item}">
-          <TableCell>{{item.id}}</TableCell>
-        </TableRow>
+        <template slot="row" slot-scope="{item}">
+          <TableRow>
+            <TableCell>{{item.id}}</TableCell>
+          </TableRow>
+        </template>
       </Table>
       `,
       data: () => ({
@@ -41,18 +43,19 @@ describe('Table', () => {
         :selectionMode="selectionMode"
         :items="tableData"
       >
-
-        <TableRow slot="row" slot-scope="{selected, changeSelection, item}">
-          <TableCell>
-            <RowSelectionIndicator
-              :value="item.id"
-              :selected="selected"
-              @change="changeSelection"
-            />
-          </TableCell>
-          <TableCell>{{item.firstName}}</TableCell>
-          <TableCell>{{item.lastName}}</TableCell>
-        </TableRow>
+        <template slot="row" slot-scope="{selected, changeSelection, item}">
+          <TableRow>
+            <TableCell>
+              <RowSelectionIndicator
+                :value="item.id"
+                :selected="selected"
+                @change="changeSelection"
+              />
+            </TableCell>
+            <TableCell>{{item.firstName}}</TableCell>
+            <TableCell>{{item.lastName}}</TableCell>
+          </TableRow>
+        </template>
       </Table>
       `,
       data: () => ({
@@ -96,17 +99,19 @@ describe('Table', () => {
       components: { RowSelectionIndicator, Table, TableRow, TableCell },
       template: `
       <Table :selectedIds.sync="selectedIds" selectionMode="multiple" :items="tableData">
-        <TableRow slot="row" slot-scope="{item, changeSelection, selected}">
+      <template slot="row" slot-scope="{item, changeSelection, selected}">
+        <TableRow>
           <TableCell>
             <RowSelectionIndicator
               :value="item.id"
               :selected="selected"
               @change="changeSelection"
             />
-          </TableCell>
-          <TableCell>{{item.firstName}}</TableCell>
-          <TableCell>{{item.lastName}}</TableCell>
-        </TableRow>
+            </TableCell>
+            <TableCell>{{item.firstName}}</TableCell>
+            <TableCell>{{item.lastName}}</TableCell>
+          </TableRow>
+        </template>
       </Table>
       `,
       data: () => ({
@@ -149,11 +154,13 @@ describe('Table', () => {
       components: { Table, TableRow, TableCell },
       template: `
       <Table selectionMode="single" :items="tableData">
-        <TableRow slot="row" slot-scope="{item}">
-          <TableCell>{{item.firstName}}</TableCell>
-          <TableCell>{{item.lastName}}</TableCell>
-          <TableCell>{{item.building}}</TableCell>
-        </TableRow>
+        <template slot="row" slot-scope="{item}">
+          <TableRow>
+            <TableCell>{{item.firstName}}</TableCell>
+            <TableCell>{{item.lastName}}</TableCell>
+            <TableCell>{{item.building}}</TableCell>
+          </TableRow>
+        </template>
       </Table>
       `,
       data: () => ({ tableData: [...data] }),
@@ -182,11 +189,13 @@ describe('Table', () => {
       components: { Table, TableRow, TableCell },
       template: `
       <Table selectionMode="multiple" :items="tableData">
-        <TableRow slot="row" slot-scope="{item}">
-          <TableCell>{{item.firstName}}</TableCell>
-          <TableCell>{{item.lastName}}</TableCell>
-          <TableCell>{{item.building}}</TableCell>
-        </TableRow>
+        <template slot="row" slot-scope="{item}">
+          <TableRow>
+            <TableCell>{{item.firstName}}</TableCell>
+            <TableCell>{{item.lastName}}</TableCell>
+            <TableCell>{{item.building}}</TableCell>
+          </TableRow>
+        </template>
       </Table>
       `,
       data: () => ({ tableData: [...data] }),
@@ -216,11 +225,13 @@ describe('Table', () => {
       components: { Table, TableRow, TableCell },
       template: `
       <Table :items="tableData">
-        <TableRow slot="row" slot-scope="{item}">
-          <TableCell>{{item.firstName}}</TableCell>
-          <TableCell>{{item.lastName}}</TableCell>
-          <TableCell>{{item.building}}</TableCell>
-        </TableRow>
+        <template slot="row" slot-scope="{item}">
+          <TableRow>
+            <TableCell>{{item.firstName}}</TableCell>
+            <TableCell>{{item.lastName}}</TableCell>
+            <TableCell>{{item.building}}</TableCell>
+          </TableRow>
+        </template>
       </Table>
       `,
       data: () => ({ tableData: [...data] }),
@@ -239,11 +250,13 @@ describe('Table', () => {
       data: () => ({ tableData: [] }),
       template: `
       <Table :items="tableData">
-        <TableRow slot="row" slot-scope="{item}">
-          <TableCell>{{item.firstName}}</TableCell>
-          <TableCell>{{item.lastName}}</TableCell>
-          <TableCell>{{item.building}}</TableCell>
-        </TableRow>
+        <template slot="row" slot-scope="{item}">
+          <TableRow>
+            <TableCell>{{item.firstName}}</TableCell>
+            <TableCell>{{item.lastName}}</TableCell>
+            <TableCell>{{item.building}}</TableCell>
+          </TableRow>
+        </template>
       </Table>
       `,
     }, { localVue });

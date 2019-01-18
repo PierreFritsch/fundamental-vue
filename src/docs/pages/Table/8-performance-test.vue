@@ -16,22 +16,21 @@
     </FdFormSet>
 
     <FdTable :fixedWrapperStyle="{'width': '100%'}" firstColumnFixed :items="tableData">
-
       <FdTableHeader>
         <FdTableHeaderCell label="id" />
         <FdTableHeaderCell v-for="colName in colNames" :key="colName" :label="colName" />
       </FdTableHeader>
-
-      <FdTableRow slot="row" slot-scope="{item}">
-        <FdTableCell :key="item.id + 'id'">
-          {{item.id}}
-        </FdTableCell>
-        <FdTableCell
-          v-for="colName in colNames"
-          :key="item.id + colName">
+      <template slot="row" slot-scope="{item}">
+        <FdTableRow>
+          <FdTableCell :key="item.id + 'id'">{{item.id}}</FdTableCell>
+          <FdTableCell
+            v-for="colName in colNames"
+            :key="item.id + colName"
+          >
             {{valueInItem(item, colName)}}
-        </FdTableCell>
-      </FdTableRow>
+          </FdTableCell>
+        </FdTableRow>
+      </template>
     </FdTable>
   </div>
 </template>
@@ -49,15 +48,15 @@ export default {
   computed: {
     colNames() {
       const cols = Number(this.numberOfColumns);
-      return Array.from({length: cols}).map((_, index) => {
+      return Array.from({ length: cols }).map((_, index) => {
         return this.colName(index);
       });
     },
     tableData() {
       const cols = Number(this.numberOfColumns);
       const rows = Number(this.numberOfRows);
-      return Array.from({length: rows}).map((_, rowIndex) => {
-        const colNames = Array.from({length: cols}).map((_, index) => {
+      return Array.from({ length: rows }).map((_, rowIndex) => {
+        const colNames = Array.from({ length: cols }).map((_, index) => {
           return this.colName(index);
         });
         const row = { id: String(rowIndex) };
@@ -66,11 +65,11 @@ export default {
         });
         return row;
       });
-    },
+    }
   },
   data: () => ({
-    numberOfColumns: '5',
-    numberOfRows: '5',
+    numberOfColumns: "5",
+    numberOfRows: "5"
   })
 };
 </script>

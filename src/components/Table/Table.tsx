@@ -1,6 +1,6 @@
 import { Watch, Provide } from 'vue-property-decorator';
 import { CreateElement, VNode } from 'vue';
-import { ScopedSlotChildren } from 'vue/types/vnode';
+import { ScopedSlotArrayContents, ScopedSlotChildren } from 'vue/types/vnode';
 import { TableBody } from './Components/TableBody';
 import {
   SortOrder,
@@ -170,6 +170,10 @@ export class Table extends Base<Props> {
     return this.currentSelectedIds.includes(id);
   }
 
+  public get canSelect(): boolean {
+    return this.selectionMode !== SelectionMode.none;
+  }
+
   public render(h: CreateElement) {
     if (this.firstColumnFixed) {
       return (
@@ -223,30 +227,40 @@ export class Table extends Base<Props> {
   private preparedRenderedRow(
     rowNode: ScopedSlotChildren,
     { id: itemId }: Item,
-  ): VNode | null {
-    if (typeof rowNode !== 'object' || Array.isArray(rowNode)) {
+  ): ScopedSlotArrayContents {
+
+    if(typeof rowNode === 'string') {
       warn(`Unable to prepare table row because rendered slot is not a VNode: ${rowNode}`);
-      return null;
+      return [];
     }
-    const { componentOptions } = rowNode;
-    if (componentOptions == null) {
-      return null;
+
+    if (Array.isArray(rowNode)) {
+      if(rowNode.length === 0) {
+        warn(`Unable to prepare table row because rendered slot seems to be an empty array: ${rowNode}`);
+        return [];
+      }
+      const node = rowNode[0] as VNode;
+      const { componentOptions } = node;
+      if (componentOptions == null) {
+        return [];
+      }
+      const { propsData = {} } = componentOptions;
+      const selected = this.isSelected(itemId);
+      node.key = itemId;
+      componentOptions.propsData = {
+        ...propsData,
+        itemId,
+        isSelected: selected,
+      };
+      return rowNode;
     }
-    const { propsData = {} } = componentOptions;
-    const selected = this.isSelected(itemId);
-    rowNode.key = itemId;
-    componentOptions.propsData = {
-      ...propsData,
-      itemId,
-      isSelected: selected,
-    };
-    return rowNode;
+    return [];
   }
 
   private renderdRow(
     rowTemplate: ScopedRowSlot,
     item: Item,
-  ): VNode | null {
+  ): ScopedSlotArrayContents {
     const changeSelection = (selected: boolean, event: Event) => {
       event.stopImmediatePropagation();
       event.preventDefault();
@@ -262,10 +276,9 @@ export class Table extends Base<Props> {
     return this.preparedRenderedRow(renderedRow, item);
   }
 
-  private get renderedRows(): VNode[] {
-    const isVNode = (node: VNode | null): node is VNode => node != null;
+  private get renderedRows(): ScopedSlotArrayContents[] {
     const rowTemplate = this.$scopedSlots.row || (() => undefined);
-    return this.sortedData.map(item => this.renderdRow(rowTemplate, item)).filter(isVNode);
+    return this.sortedData.map(item => this.renderdRow(rowTemplate, item));
   }
 
   private renderTable(h: CreateElement) {

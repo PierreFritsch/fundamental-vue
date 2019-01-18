@@ -40,13 +40,14 @@ If you modify the `items`-array, make sure that the modification is done in a wa
         <FdTableHeaderCell sortable sortBy="firstName" label="Full Name" />
       </FdTableHeader>
 
-      <FdTableRow slot="row" slot-scope="{item}">
-        <FdTableCell>{{item.rating}}</FdTableCell>
-        <FdTableCell>{{item.firstName}}</FdTableCell>
-        <FdTableCell>{{item.lastName}}</FdTableCell>
-        <FdTableCell>{{item.firstName}} {{item.lastName}}</FdTableCell>
-      </FdTableRow>
-
+      <template slot="row" slot-scope="{item}">
+        <FdTableRow>
+          <FdTableCell>{{item.rating}}</FdTableCell>
+          <FdTableCell>{{item.firstName}}</FdTableCell>
+          <FdTableCell>{{item.lastName}}</FdTableCell>
+          <FdTableCell>{{item.firstName}} {{item.lastName}}</FdTableCell>
+        </FdTableRow>
+      </template>
     </FdTable>
 
     <h2>Creating an Entry</h2>

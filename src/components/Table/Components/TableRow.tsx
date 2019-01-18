@@ -47,8 +47,13 @@ export class TableRow extends Base<{}> {
       options.propsData = { ...propsData, fixed };
     });
     return h('tr', {
-      on: { click: this.handleClick },
-      attrs: { 'aria-selected': this.isSelected },
+      on: {
+        ...this.$listeners,
+        '&click': this.handleClick, // & = passive modifier
+      },
+      attrs: {
+        'aria-selected': this.isSelected,
+      },
     }, cells);
   }
 }

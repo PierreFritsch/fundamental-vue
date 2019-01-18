@@ -2,6 +2,13 @@
 <docs>
 Use `FdTable` in order to display data best visualized by rows and columns.
 
+<div class="tip" style="border-left: 0.5rem solid #ffa94a;">
+  <div class="tip-title">IMPORTANT</div>
+  <div class="tip-body">
+    <p>In a previous release you didn't have to put <code>FdTableRow</code> in a <code>template</code>. Going forward you have to do so.</p>
+  </div>
+</div>
+
 The most important prop exposed by `FdTable` is called `items`. The items of a table must at least have an `id`-property which contains a `string`, uniquely indentifying the corresponding item. Each item may contain any additional custom properties.
 
 ### FdTable Atonomy
@@ -44,11 +51,13 @@ interface RowSlotProps<T = object> {
       <FdTableHeaderCell label="Building" />
     </FdTableHeader>
 
-    <FdTableRow slot="row" slot-scope="{item}">
-      <FdTableCell>{{item.firstName}}</FdTableCell>
-      <FdTableCell>{{item.lastName}}</FdTableCell>
-      <FdTableCell>{{item.building}}</FdTableCell>
-    </FdTableRow>
+    <template slot="row" slot-scope="{item}">
+      <FdTableRow>
+        <FdTableCell>{{item.firstName}}</FdTableCell>
+        <FdTableCell>{{item.lastName}}</FdTableCell>
+        <FdTableCell>{{item.building}}</FdTableCell>
+      </FdTableRow>
+    </template>
 
   </FdTable>
 </template>

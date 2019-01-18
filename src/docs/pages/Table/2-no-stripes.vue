@@ -11,12 +11,13 @@ You can use `striped` on `FdTable` in order enable alternating colored rows.
       <FdTableHeaderCell label="Last Name" />
       <FdTableHeaderCell label="Building" />
     </FdTableHeader>
-
-    <FdTableRow slot="row" slot-scope="{item}">
-      <FdTableCell>{{item.firstName}}</FdTableCell>
-      <FdTableCell>{{item.lastName}}</FdTableCell>
-      <FdTableCell>{{item.building}}</FdTableCell>
-    </FdTableRow>
+    <template slot="row" slot-scope="{item}">
+      <FdTableRow>
+        <FdTableCell>{{item.firstName}}</FdTableCell>
+        <FdTableCell>{{item.lastName}}</FdTableCell>
+        <FdTableCell>{{item.building}}</FdTableCell>
+      </FdTableRow>
+    </template>
 
   </FdTable>
 </template>
